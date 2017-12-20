@@ -10,7 +10,7 @@
 # OUT       : (optional) Path to output file (leave off to overwrite original)
 # PRECISION : (optional) Number of digits after the decimal to keep (default 6)
 
-VERSION = '0.1'
+VERSION = '1.0'
 MOVEMENT_REGEX = /(\w)(\-?\d+\.\d+)/
 
 input = File.read(ENV['IN'])
