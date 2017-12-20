@@ -3,6 +3,10 @@
 Rounds off gcode to a given number of digits after the decimal. Requires an `IN` file and `OUT` file 
 and optionally the `PRECISION` to round off (defaults to 6 decimals).
 
+## Requirements
+
+This script requires [Ruby](https://www.ruby-lang.org/en/documentation/installation/).
+
 ## Installation
 
 Clone the repo:
