@@ -1,0 +1,48 @@
+#! /usr/bin/env ruby
+
+# Rounds off GCode coordinates to a specified number of decimals.
+#
+# Usage:
+#
+#   ./round IN=/path/to/file OUT=/path/to/file PRECISION=[6]
+#
+# IN        : (required) Path to input file
+# OUT       : (optional) Path to output file (leave off to overwrite original)
+# PRECISION : (optional) Number of digits after the decimal to keep (default 6)
+
+VERSION = '0.1'
+MOVEMENT_REGEX = /(\w)(\-?\d+\.\d+)/
+
+input = File.read(ENV['IN'])
+output_filename = ENV['OUT'] || ENV['IN']
+precision = (ENV['PRECISION'] || 6).to_i
+output = []
+counts = { :converted => 0, :maintained => 0 }
+
+print "\nConverting #{input.split("\n").length} lines..."
+
+input.each_line do |line|
+  commands = line.split(' ')
+  output << commands.collect do |command|
+    if parts = command.match(MOVEMENT_REGEX)
+      counts[:converted] += 1
+      new_location = parts[2].to_f.round(precision)
+      parts[1] + new_location.to_s
+    else
+      counts[:maintained] += 1
+      command
+    end
+  end.join(' ')
+end
+
+File.open(output_filename, 'w') do |f|
+  f.puts "(Decimal precision updated by Gcode Rounder #{VERSION})"
+  f.puts output.join("\n")
+end
+
+puts "done!"
+puts ""
+puts "#{counts[:converted]} commands rounded to #{precision} decimal precision."
+puts "#{counts[:maintained]} commands ignored."
+puts ""
+exit 0
