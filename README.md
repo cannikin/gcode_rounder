@@ -60,7 +60,6 @@ You'll get a little bit of output while your gcode is being rounded and once com
 
     G21 G90 G40
 
-    (controllers)
     G0 Z3
     T0 M6
     G17
